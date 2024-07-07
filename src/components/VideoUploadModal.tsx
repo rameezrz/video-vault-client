@@ -7,7 +7,7 @@ import axiosInstance from "../api/axios";
 interface VideoUploadModalProps {
   visible: boolean;
   onClose: () => void;
-  onSuccess: () => void; // New prop for handling success
+  onSuccess: () => void;
 }
 
 const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
@@ -22,12 +22,11 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
 
   const beforeUpload = (file: File) => {
     if (file.size > 6 * 1024 * 1024) {
-      // 6MB in bytes
       message.error("File must be smaller than 6MB!");
       return Upload.LIST_IGNORE;
     }
     setFile(file);
-    return false; // Prevent automatic upload
+    return false;
   };
 
   const handleUpload = async () => {
@@ -59,24 +58,19 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
       );
 
       const videoUrl = cloudinaryResponse.data.secure_url;
-      console.log(videoUrl);
-      // Send video details to your backend
-      const response = await axiosInstance.post("/videos/upload", {
+
+      await axiosInstance.post("/videos/upload", {
         title: form.getFieldValue("title"),
         description: form.getFieldValue("description"),
         url: videoUrl,
       });
 
-      console.log(
-        "Video uploaded and details saved successfully:",
-        response.data
-      );
       setUploading(false);
       setUploadProgress(0);
       setFile(null);
       form.resetFields();
       onClose();
-      onSuccess(); // Call the success handler
+      onSuccess();
       message.success("Video uploaded successfully...");
     } catch (error) {
       console.error("Error uploading video:", error);

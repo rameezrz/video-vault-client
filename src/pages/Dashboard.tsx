@@ -31,7 +31,7 @@ const Dashboard = () => {
   };
 
   const handleVideoUploadSuccess = () => {
-    setRefreshVideos(!refreshVideos); // Toggle the state to refresh the videos
+    setRefreshVideos(!refreshVideos);
   };
 
   return (

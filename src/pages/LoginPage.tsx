@@ -33,8 +33,6 @@ const LoginPage = () => {
       password,
     });
 
-    console.log({ response });
-
     if (response?.status !== 200) {
       setError(response?.message);
     } else {

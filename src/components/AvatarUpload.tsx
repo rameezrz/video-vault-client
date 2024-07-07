@@ -35,7 +35,7 @@ const avatarUpload = () => {
 
     const formData = new FormData();
     formData.append("file", image);
-    formData.append("upload_preset", "videoVaultAvatar"); // Set up an unsigned upload preset in Cloudinary
+    formData.append("upload_preset", "videoVaultAvatar");
 
     try {
       const response = await fetch(
@@ -48,11 +48,9 @@ const avatarUpload = () => {
         }
       );
       const data = await response.json();
-      console.log({ data });
       if (data.secure_url) {
         const avatar = data.secure_url;
-        const response = await saveAvatar(avatar);
-        console.log({ response });
+        await saveAvatar(avatar);
         setUser((prev) => {
           if (!prev) return null;
           const updatedUser = { ...prev, avatar };
