@@ -4,22 +4,29 @@ import { useState } from "react";
 import { capitalize } from "../utils/inputValidation";
 import { Button } from "antd";
 import AddBioModal from "../components/AddBioModal";
+import VideoUploadModal from "../components/VideoUploadModal";
+import VideoList from "../components/VideoList";
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isBioModal, setIsBioModal] = useState(false);
+  const [isUploadVideoModal, setIsUploadVideoBioModal] = useState(false);
   const [bio, setBio] = useState("");
 
   const handleAddBio = () => {
-    setIsModalVisible(true);
+    setIsBioModal(true);
   };
 
   const handleSaveBio = async (newBio: string) => {
     setBio(newBio);
   };
 
-  const handleModalClose = () => {
-    setIsModalVisible(false);
+  const handleBioModalClose = () => {
+    setIsBioModal(false);
+  };
+
+  const handleUploadVideoModalClose = () => {
+    setIsUploadVideoBioModal(false);
   };
 
   return (
@@ -61,12 +68,22 @@ const Dashboard = () => {
         )}
       </div>
       <AddBioModal
-        visible={isModalVisible}
-        onClose={handleModalClose}
+        visible={isBioModal}
+        onClose={handleBioModalClose}
         onSave={handleSaveBio}
       />
 
-      <h2 className="text-2xl my-4">My Videos</h2>
+      <div className="flex justify-between items-center mt-3">
+        <h2 className="text-2xl my-4">My Videos</h2>
+        <Button type="primary" onClick={() => setIsUploadVideoBioModal(true)}>
+          Upload Video
+        </Button>
+        <VideoUploadModal
+          visible={isUploadVideoModal}
+          onClose={handleUploadVideoModalClose}
+        />
+      </div>
+      <VideoList />
     </div>
   );
 };
