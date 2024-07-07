@@ -12,8 +12,10 @@ import { User } from "../types/user";
 interface AuthContextType {
   user: User | null;
   setUser: Dispatch<SetStateAction<User | null>>;
-  token: string | null;
-  setToken: Dispatch<SetStateAction<string | null>>;
+  accessToken: string | null;
+  setAccessToken: Dispatch<SetStateAction<string | null>>;
+  refreshToken: string | null;
+  setRefreshToken: Dispatch<SetStateAction<string | null>>;
   loading: boolean;
   logout: () => void;
 }
@@ -24,33 +26,42 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
+    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedRefreshToken = localStorage.getItem("refreshToken");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    if (storedToken) {
-      setToken(storedToken);
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
+    }
+    if (storedRefreshToken) {
+      setRefreshToken(storedRefreshToken);
     }
     setLoading(false);
   }, []);
 
   const logout = () => {
     setUser(null);
-    setToken(null);
+    setAccessToken(null);
+    setRefreshToken(null);
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   };
 
   const value = {
     user,
     setUser,
-    token,
-    setToken,
+    accessToken,
+    setAccessToken,
+    refreshToken,
+    setRefreshToken,
     loading,
     logout,
   };

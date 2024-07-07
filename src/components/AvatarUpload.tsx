@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { saveAvatar } from "../api/userProfile";
-import { useAxiosInterceptor } from "../api/axios";
 
 const avatarUpload = () => {
   const { user, setUser } = useAuth();
@@ -9,8 +8,6 @@ const avatarUpload = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-
-  useAxiosInterceptor();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -73,7 +70,7 @@ const avatarUpload = () => {
   };
 
   return (
-    <div className="flex items-center gap-10">
+    <div className="flex flex-col items-center gap-5 justify-center">
       {!image && (
         <div>
           <img
@@ -84,9 +81,10 @@ const avatarUpload = () => {
         </div>
       )}
 
-      <div>
-        <h2>Upload Profile Picture</h2>
+      <div className="flex flex-col items-center">
+        <h2 className="mb-2">Upload Profile Picture</h2>
         {error && <p className="text-red-500">{error}</p>}
+
         <input
           type="file"
           accept="image/jpeg,image/png"

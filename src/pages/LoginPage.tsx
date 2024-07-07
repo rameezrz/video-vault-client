@@ -11,7 +11,7 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { setUser, setToken } = useAuth();
+  const { setUser, setAccessToken, setRefreshToken } = useAuth();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -40,7 +40,8 @@ const LoginPage = () => {
     } else {
       setError("");
       setUser(response?.user);
-      setToken(response?.accessToken);
+      setAccessToken(response?.accessToken);
+      setRefreshToken(response?.refreshToken);
       navigate("/dashboard");
     }
     setIsLoading(false);

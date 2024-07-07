@@ -27,14 +27,16 @@ export const LoginUser = async (inputs: LoginInputs) => {
       password,
     });
 
-    let { user, accessToken } = response?.data;
+    let { user, accessToken, refreshToken } = response?.data;
     localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", JSON.stringify(accessToken));
+    localStorage.setItem("accessToken", JSON.stringify(accessToken));
+    localStorage.setItem("refreshToken", JSON.stringify(refreshToken));
     return {
       status: response?.status,
       message: response?.data?.message,
       user,
       accessToken,
+      refreshToken,
     };
   } catch (error: any) {
     return {

@@ -47,3 +47,7 @@ export const validateLoginInputs = (inputs: LoginInputs) => {
   }
   return "";
 };
+
+export const capitalize = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};
