@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
-import { List, Card } from "antd";
+import { List, Modal, Button } from "antd";
+import VideoCard from "./VideoCard";
 
-const VideoList: React.FC = () => {
+interface VideoListProps {
+  refresh: boolean;
+}
+
+const VideoList: React.FC<VideoListProps> = ({ refresh }) => {
   const [videos, setVideos] = useState<any[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState<any | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     fetchVideos();
-  }, []);
+  }, [refresh]);
 
   const fetchVideos = async () => {
     try {
@@ -18,24 +25,42 @@ const VideoList: React.FC = () => {
     }
   };
 
+  const showModal = (video: any) => {
+    setSelectedVideo(video);
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setSelectedVideo(null);
+  };
+
   return (
     <div>
       <List
-        grid={{ gutter: 16, column: 3 }}
+        grid={{ gutter: 16, column: 4 }}
         dataSource={videos}
         renderItem={(video) => (
           <List.Item>
-            <Card
-              title={video.title}
-              cover={<video src={video.url} controls width="100%" />}
-            >
-              <div className="max-h-32 overflow-y-scroll">
-                <p>{video.description}</p>
-              </div>
-            </Card>
+            <VideoCard video={video} onReadMore={showModal} />
           </List.Item>
         )}
       />
+
+      {selectedVideo && (
+        <Modal
+          title={selectedVideo.title}
+          visible={isModalVisible}
+          onCancel={handleCancel}
+          footer={[
+            <Button key="close" onClick={handleCancel}>
+              Close
+            </Button>,
+          ]}
+        >
+          <p>{selectedVideo.description}</p>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [isBioModal, setIsBioModal] = useState(false);
   const [isUploadVideoModal, setIsUploadVideoBioModal] = useState(false);
   const [bio, setBio] = useState("");
+  const [refreshVideos, setRefreshVideos] = useState(false);
 
   const handleAddBio = () => {
     setIsBioModal(true);
@@ -27,6 +28,10 @@ const Dashboard = () => {
 
   const handleUploadVideoModalClose = () => {
     setIsUploadVideoBioModal(false);
+  };
+
+  const handleVideoUploadSuccess = () => {
+    setRefreshVideos(!refreshVideos); // Toggle the state to refresh the videos
   };
 
   return (
@@ -81,9 +86,10 @@ const Dashboard = () => {
         <VideoUploadModal
           visible={isUploadVideoModal}
           onClose={handleUploadVideoModalClose}
+          onSuccess={handleVideoUploadSuccess}
         />
       </div>
-      <VideoList />
+      <VideoList refresh={refreshVideos} />
     </div>
   );
 };

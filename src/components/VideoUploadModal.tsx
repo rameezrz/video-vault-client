@@ -7,11 +7,13 @@ import axiosInstance from "../api/axios";
 interface VideoUploadModalProps {
   visible: boolean;
   onClose: () => void;
+  onSuccess: () => void; // New prop for handling success
 }
 
 const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
   visible,
   onClose,
+  onSuccess,
 }) => {
   const [form] = Form.useForm();
   const [file, setFile] = useState<File | null>(null);
@@ -74,6 +76,7 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
       setFile(null);
       form.resetFields();
       onClose();
+      onSuccess(); // Call the success handler
       message.success("Video uploaded successfully...");
     } catch (error) {
       console.error("Error uploading video:", error);
