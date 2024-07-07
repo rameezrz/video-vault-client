@@ -66,7 +66,7 @@ const Dashboard = () => {
               </div>
 
               <div className="max-h-40 overflow-y-scroll">
-                <p>{user.bio}</p>
+                <p>{user.bio || bio}</p>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { List, Avatar, Button, Row, Col, Modal } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import VideoCard from "../components/VideoCard";
 import { capitalize } from "../utils/inputValidation";
 
@@ -24,7 +24,6 @@ const AllUsersVideos: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsersWithVideos();
@@ -37,10 +36,6 @@ const AllUsersVideos: React.FC = () => {
     } catch (error) {
       console.error("Error fetching users and videos:", error);
     }
-  };
-
-  const handleViewMore = (userId: string) => {
-    navigate(`/user/${userId}`);
   };
 
   const showModal = (video: Video) => {
